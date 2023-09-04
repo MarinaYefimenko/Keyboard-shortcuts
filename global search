@@ -1,0 +1,65 @@
+document.addEventListener('keydown', (event) => {
+
+    if ((event.ctrlKey || event.metaKey) && (event.key === "k" ||event.key === "K" || event.key === "c" || event.key === "C" || event.key === "s" || event.key === "S" || event.key === "b" || event.key === "B" || event.key === "u" || event.key === "U" || event.key === "i"|| event.key === "I" || event.key === "q" || event.key === "Q")) {
+    
+        event.preventDefault();
+        
+        let path = "";
+
+        switch (event.key){
+            case "k":
+               //console.log("input")
+                variables['451ae32c-4d42-4665-9542-90c7f67dddab'] = false;
+                variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] = true;
+                setTimeout(() => {
+                let input = document.querySelector(".input_parent");
+//console.log(input)
+if(input){input.focus();}
+}, 500);
+                break;
+            case "c":
+                variables['451ae32c-4d42-4665-9542-90c7f67dddab'] = false;
+                variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] = false;
+                variables['611efee8-2fe7-46ff-8143-f4759eff5830-shown'] = true;
+            break;
+            case "s":
+                variables['451ae32c-4d42-4665-9542-90c7f67dddab'] = false;
+                variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] = false;
+                variables['070bbb5c-7bfa-495f-bdfe-fdf49d2f529d-shown'] = true;
+            break;
+            case "b":
+                variables['451ae32c-4d42-4665-9542-90c7f67dddab'] = false;
+                variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] = false;
+                path = context.browser?.['baseUrl'] + "/002f15ac-1556-49c6-9c18-2ef7c8521c2c";
+                window.open(path);
+            break;
+            case "u":
+                variables['451ae32c-4d42-4665-9542-90c7f67dddab'] = false;
+                variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] = false;
+                path = context.browser?.['baseUrl'] + "/portfolio/property/create";
+                window.open(path);
+            break;
+            case "i":
+                variables['451ae32c-4d42-4665-9542-90c7f67dddab'] = false;
+                variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] = false;
+                path = context.browser?.['baseUrl'] + "/financial/invoice/creation";
+                window.open(path);
+            break;
+            case "q":
+                variables['451ae32c-4d42-4665-9542-90c7f67dddab'] = false;
+                variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] = false;
+                path = context.browser?.['baseUrl'] + "/contact/client";
+                window.open(path);
+            break;
+        }
+        
+    }
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === "Escape") {
+        event.preventDefault();
+        variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] = false;
+    }
+
+})
