@@ -1,0 +1,33 @@
+let image = "";
+switch (context.item.data?.['type']){
+  case "apartment":
+  image =  "Couch";
+  break;
+  case "room":
+  image =  "Interior";
+  break;
+  case "house":
+  image =  "Home";
+  break;
+  case "student room":
+  image =  "Hat";
+  break;
+  case "restaurant":
+  image =  "Kitchen";
+  break;
+  case "warehouse":
+  image =  "Stock";
+  break;
+  case "store":
+  image =  "Shop";
+  break;
+  case "garage":
+  image =  "Garage";
+  break;
+  case "storage":
+  image =  "Box";
+  break;
+  default:
+  image = "Briefcase"
+}
+return `sndq-property-type-icon-${image}-24`
