@@ -1,7 +1,7 @@
 document.addEventListener('keydown', (event) => {
 
-    //prevent on creation pages
-    if(context.page?.['id'] !== "baff87bd-3864-4925-97ea-3212f9443581" || context.page?.['id'] == "f28e3708-2d3a-4077-b116-06a1348e08a4" ||  context.page?.['id'] == "cdbdf22a-4fe5-4eb1-b715-01d6d61136ea" || context.page?.['id'] == "5897ed87-bc9f-4dd0-baad-137ec76f2171" ||  context.page?.['id'] == "53eb5c21-3a5e-463e-9267-3e307cd34a51"){
+    //prevent on creation pages && login page
+    if(context.page?.['id'] !== "4a0aeecc-dbf6-47e3-99e9-ebbf6c636aa5" && context.page?.['id'] !== "baff87bd-3864-4925-97ea-3212f9443581" && context.page?.['id'] !== "f28e3708-2d3a-4077-b116-06a1348e08a4" &&  context.page?.['id'] !== "cdbdf22a-4fe5-4eb1-b715-01d6d61136ea" && context.page?.['id'] !== "5897ed87-bc9f-4dd0-baad-137ec76f2171" &&  context.page?.['id'] !== "53eb5c21-3a5e-463e-9267-3e307cd34a51"){
     
     
         if ((event.ctrlKey || event.metaKey) && (event.key === "k" ||event.key === "K" || event.key === "c" || event.key === "C" || event.key === "s" || event.key === "S" || event.key === "b" || event.key === "B" || event.key === "u" || event.key === "U" || event.key === "i"|| event.key === "I" || event.key === "q" || event.key === "Q")) {
@@ -61,7 +61,7 @@ document.addEventListener('keydown', (event) => {
     };
     
     document.addEventListener('keydown', (event) => {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] == true) {
             event.preventDefault();
             variables['47cd800b-5b8c-4584-8003-dee5ecd33ea8'] = false;
         }
