@@ -1,0 +1,106 @@
+let ownersID = [];
+variables['dddcf2f3-1a31-4648-8d49-4ccc883a4379'].forEach(owner => {
+ownersID.push(owner.id)
+})
+
+let floors = variables['27881b61-f3c6-4101-8300-20f3a9d3e260'];
+let clearFloors = [];
+floors.forEach(floor => {
+let properties = [];
+if(floor.properties && floor.properties.length > 0){
+floor.properties.forEach(prop => {
+let type = prop.type?prop.type.toLowerCase():"";
+if(type != "apartment" &&type != "house" &&type != "storage" &&type != "garage" &&type != "studio" &&type != "room" &&type != "student_room" &&type != "office" &&type != "restaurant" &&type != "warehouse" &&type != "store"){
+type = "apartment";
+}
+properties.push({
+name:prop.name,
+type:type,
+primary_owner:prop.primary_owner?prop.primary_owner:ownersID[0],
+owners:prop.owners.length>0&&prop.owners[0]!=null?prop.owners:[ownersID[0]],
+shares_number: prop.shares_number,
+addition: prop.addition,
+provision: +prop.provision?+prop.provision:0,
+provision_freq: prop.provision_freq,
+remittance: prop.remittance
+})
+})}
+
+clearFloors.push({
+number:floor.number,
+properties:properties
+})
+
+})
+
+
+
+
+
+let isDraftExist = !!(context.browser?.['query']?.['building_id'] || context.browser?.['query']?.['state'])
+
+let enterprise_number = isDraftExist?collections['c9fee994-5535-4eeb-96b9-8773831f8d2f']?.['data']?.['draft']?.['enterprise_number'] :(variables['70caa878-9883-43dc-88b7-a6a17385f5e0']?.['type']=="syndic"?variables[/* new_syndic_business_number - value */ '527c4e5c-f601-4756-ad6a-54c887445f6d-value']:variables['790cf2d5-b276-4a42-8914-48567830e605-value']);
+
+let name = isDraftExist?collections['c9fee994-5535-4eeb-96b9-8773831f8d2f']?.['data']?.['draft']?.['name'] : (variables['70caa878-9883-43dc-88b7-a6a17385f5e0']?.['type']=="syndic"?variables['2e15295f-afbf-430a-bda8-18d0a883d826-value']:variables['3d909ebf-7d11-41b1-86bf-ca9b9768dbbc-value']);
+
+let address_id = isDraftExist?variables['dd6a8b5e-a935-4a36-8fd3-1d8f7cf7239c']?.['id']: variables['e183c314-4900-4894-af65-198994038b6b'];
+
+let supplisersID = [];
+let supplMain = [];
+variables['3b0cdac1-b027-4dbc-aa63-d846097a228f'].forEach(suppl => {
+supplisersID.push(suppl.id);
+supplMain.push({supplier_id:suppl.id, supplier_client_reference:null})
+});
+
+let selected_suppliers = variables['70caa878-9883-43dc-88b7-a6a17385f5e0']?.['type']=="syndic"?supplisersID :null;
+
+let suppliers =  variables['70caa878-9883-43dc-88b7-a6a17385f5e0']?.['type']=="syndic"?supplMain:null;
+
+
+
+
+//DOCUMENTS\
+let otherFiles = [];
+variables['11acb5c9-1392-442e-8d0f-8ad9ac5c40b7'].forEach(fileArr => {
+otherFiles.push(fileArr.file)
+})
+
+let documents = {};
+if (variables['7da86c09-1a82-4da1-8c93-eeea40628893']){
+documents = {
+    "building_deed": null,
+    "building_rules": null,
+    "building_regulations": null,
+    "syndic_contract": null,
+    "syndic_appointment": null,
+    "others": [],
+    "documents_uploaded": true,
+    "uploaded_document_file_ids": variables['17caad26-ff89-4640-aab6-a4c75a4187a6']
+  }
+  } else {
+  documents = {
+    "building_deed": variables['26ab5e49-1e62-4500-981a-ef9bf0ffa8a7']?.[0]?.['id']?"https://api.sndq.io"+ variables['26ab5e49-1e62-4500-981a-ef9bf0ffa8a7']?.[0]?.['metadata']?.['path']:variables['26ab5e49-1e62-4500-981a-ef9bf0ffa8a7']?.[0],
+    "building_rules": variables['6031df34-2bcd-46cc-8ae8-aff090487059']?.[0]?.['id']?"https://api.sndq.io"+variables['6031df34-2bcd-46cc-8ae8-aff090487059']?.[0]?.['metadata']?.['path']:variables['6031df34-2bcd-46cc-8ae8-aff090487059']?.[0],
+    "building_regulations": variables['a3c507ab-3f28-4d96-9e23-2bab04c32299']?.[0]?.['id']?"https://api.sndq.io"+variables['a3c507ab-3f28-4d96-9e23-2bab04c32299']?.[0]?.['metadata']?.['path']:variables['a3c507ab-3f28-4d96-9e23-2bab04c32299']?.[0],
+    "syndic_contract": variables['b90824a1-c3c7-4e9d-9336-4788b2dd4798']?.[0]?.['id']?"https://api.sndq.io"+variables['b90824a1-c3c7-4e9d-9336-4788b2dd4798']?.[0]?.['metadata']?.['path']:variables['b90824a1-c3c7-4e9d-9336-4788b2dd4798']?.[0],
+    "syndic_appointment": variables['d91d3f7e-990f-4607-aacf-67cb54494549']?.[0]?.['id']?"https://api.sndq.io"+variables['d91d3f7e-990f-4607-aacf-67cb54494549']?.[0]?.['metadata']?.['path']:variables['d91d3f7e-990f-4607-aacf-67cb54494549']?.[0] ,
+    "others": otherFiles,
+    "documents_uploaded": false,
+    "uploaded_document_file_ids": variables['17caad26-ff89-4640-aab6-a4c75a4187a6']
+  }
+  }
+   
+return {
+  "resuming_building_id":context.browser?.['query']?.['building_id']?+context.browser?.['query']?.['building_id']:0,
+  "name": name,
+  "documents": variables['70caa878-9883-43dc-88b7-a6a17385f5e0']?.['type']=="syndic"?documents:null,
+  "enterprise_number":enterprise_number,
+  "address_id": address_id,
+  "business_id": collections['53c9c7cd-18cb-4454-9410-4b7938e03aeb']?.['data']?.['business_info']?.['id'],
+  "account_number_ids":variables['6d91cdb8-3f6b-473a-8561-a4f317e15ad3'],
+  "building_manager_user_id": variables['146d013c-d8d5-417f-a6c2-426c8352e627']?.['id']?variables['146d013c-d8d5-417f-a6c2-426c8352e627']?.['id']:collections['67f6a0b3-fea8-4c66-8696-f7778ab7a42d']?.['data']?.['current_user']?.['id'],
+  "suppliers": suppliers,
+  "owners": ownersID,
+  "number_of_shares": isDraftExist?collections['c9fee994-5535-4eeb-96b9-8773831f8d2f']?.['data']?.['draft']?.['number_of_shares']:variables['5bc8ad55-172b-453f-b82a-3314cf91e0df-value'],
+  "floors": clearFloors
+}
