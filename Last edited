@@ -1,0 +1,38 @@
+let edited = 0;
+
+let allAutomations = collections['ac206841-626f-44de-a901-ab770db10f7b']?.['data'];
+
+allAutomations.forEach((rem, i) => {
+if(rem.type === "friendly"){
+edited = rem.modified_at?rem.modified_at:rem.created_at;
+}
+})
+
+let nowTS = Date.now();
+let difference = nowTS - edited;
+
+let type = "";
+let amount, typeTransl;
+
+//less than day
+if(difference < 86400000){
+type = "min";
+amount = Math.floor(difference/60000); 
+typeTransl = {minute_count:amount};
+}
+
+//less than month
+if(difference >= 86400000 && difference < 2592000000){
+type = "day";
+amount = Math.floor(difference/86400000);
+typeTransl = {day_count:amount};
+}
+
+//more than month
+if(difference >= 2592000000){
+type = "month";
+amount = Math.floor(difference/2592000000);
+typeTransl = {month_count:amount};
+}
+
+return edited == 0? formulas['5d827ce5-d3e1-4ee8-906b-6b18a4368ae2']("reminder_no_config"):formulas['5d827ce5-d3e1-4ee8-906b-6b18a4368ae2']("reminder_update_"+type, typeTransl)
