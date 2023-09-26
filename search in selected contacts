@@ -1,0 +1,23 @@
+let searchQuery = variables['519b498b-482c-45be-8ad2-f4e6109e432a'];
+
+let allOwnersString =[];
+ variables['dddcf2f3-1a31-4648-8d49-4ccc883a4379'].forEach(owner => {
+ allOwnersString.push(JSON.stringify(owner))
+ })
+ 
+ function searchFunc(str) {
+ if (searchQuery !== ""){
+  return str.toLowerCase().search(searchQuery)!= -1;
+}
+  return true
+}
+
+let searchResult = allOwnersString.filter(searchFunc)
+
+let result = [];
+searchResult.forEach(str => {
+result.push(JSON.parse(str))
+})
+
+
+return result
