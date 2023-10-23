@@ -1,0 +1,57 @@
+//presence
+let presence = "procuration";
+let status = variables['06c581c0-07a5-40e6-9720-e97f8c57ef2a'];
+if(status == "present"){
+presence = "present";
+}
+if(status == "not-present"&&!variables[/* transf_shares_toggle - checked */ '558072f2-a931-46dc-adf8-29c833ef97d4-checked']){
+    presence = "not-present";
+}
+
+return presence
+
+
+//procuration_given
+let procuration_given = [];
+let status = variables['06c581c0-07a5-40e6-9720-e97f8c57ef2a'];
+
+if(status == "present"&&variables[/* has_shared_toggle - checked */ '69eb9fb8-5003-4d3f-bc35-243b0dd0135e-checked']){
+    if(variables[/* first_coowner - selected id(s) */ 'd9f0fb3b-f9bb-4e59-a0d8-19b90ac261ad-selected id(s)']>0){
+        procuration_given.push(variables[/* first_coowner - selected id(s) */ 'd9f0fb3b-f9bb-4e59-a0d8-19b90ac261ad-selected id(s)'])
+    };
+    if(variables[/* second_coowner - selected id(s) */ '8fa9b784-697a-4f3f-917e-200d34c13779-selected id(s)']>0){
+        procuration_given.push(variables[/* second_coowner - selected id(s) */ '8fa9b784-697a-4f3f-917e-200d34c13779-selected id(s)'])
+    }
+    if(variables[/* third_coowner - selected id(s) */ '8b0ee234-5a61-4fe0-95e9-f92d91be27df-selected id(s)']>0){
+        procuration_given.push(variables[/* third_coowner - selected id(s) */ '8b0ee234-5a61-4fe0-95e9-f92d91be27df-selected id(s)'])
+    }
+}
+
+return procuration_given.length>0?procuration_given:null
+
+
+
+  
+//procuration
+let coowner = null;
+let individual = null;
+let status = variables['06c581c0-07a5-40e6-9720-e97f8c57ef2a'];
+
+if(status == "not-present"&&variables[/* transf_shares_toggle - checked */ '558072f2-a931-46dc-adf8-29c833ef97d4-checked']){
+    coowner = variables[/* single_1_coowner - selected id(s) */ '4123083c-017f-4c3b-bfa1-6b7f80d28a6a-selected id(s)'];
+}
+
+if(status == "coowner"){
+    coowner = variables[/* single_coowner - selected id(s) */ '9d048fd4-4203-4578-b5ab-696209cb8bd7-selected id(s)']
+}
+
+if(status == "contact"){
+individual = {
+    first_name: variables[/* contact_first_name - value */ '4f500550-5048-43d3-adf8-0e8529924027-value'],
+    last_name: variables[/* contact_last_name - value */ '1f12a209-efa9-443a-bdf9-c3dfb4da38d3-value'],
+    phone_number: variables[/* contact_phone - value */ '80eaaba7-c4a7-4c65-bf40-6a77ecddc8d7-value'],
+    email:variables[/* contact_email - value */ '41c7bb2e-8a1a-4e5e-926f-23c9c91c4c44-value']
+}
+}
+
+return {coowner_contact_id:coowner, individual:individual}
