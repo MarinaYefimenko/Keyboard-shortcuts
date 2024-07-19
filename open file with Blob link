@@ -1,0 +1,21 @@
+const pdfUrl = context.parameters['pathFile'];
+
+const fileName = context.parameters['fileName'] || "myfile.pdf";
+
+// Fetch the PDF file as a blob
+fetch(pdfUrl)
+  .then(response => response.blob())
+  .then(blob => {
+    // Create a new URL object from the blob
+    const url = URL.createObjectURL(blob);
+
+    // Create a new anchor element to download the PDF file
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+
+    // Clean up the URL object
+    URL.revokeObjectURL(url);
+  });
